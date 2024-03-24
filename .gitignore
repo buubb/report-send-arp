@@ -1,0 +1,4 @@
+report-send-arp.pro.user
+*.o
+.qmake.stash
+Makefile
