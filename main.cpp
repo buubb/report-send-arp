@@ -2,10 +2,6 @@
 #include <pcap.h>
 #include <iostream>
 #include <fstream>
-#include <netinet/in.h>
-#include <netinet/if_ether.h>
-#include <arpa/inet.h>
-#include <string>
 #include "ethhdr.h"
 #include "arphdr.h"
 
@@ -34,7 +30,7 @@ const std::string get_mac_address(const char *interface_name) {
 
 
 int main(int argc, char* argv[]) {
-    if (argc < 4) {
+    if (argc != 4) {
         usage();
         return -1;
     }
@@ -51,7 +47,7 @@ int main(int argc, char* argv[]) {
 
     EthArpPacket packet;
 
-    packet.eth_.dmac_ = Mac("00:00:00:00:00:00"); // sender_MAC_address
+    packet.eth_.dmac_ = Mac("00:00:00:00:00:00"); //sender_MAC_address
     packet.eth_.smac_ = Mac(get_mac_address(dev));
     packet.eth_.type_ = htons(EthHdr::Arp);
 
@@ -62,7 +58,7 @@ int main(int argc, char* argv[]) {
     packet.arp_.op_ = htons(ArpHdr::Request);
     packet.arp_.smac_ = Mac(get_mac_address(dev));
     packet.arp_.sip_ = htonl(Ip(target_ip));
-    packet.arp_.tmac_ = Mac("00:00:00:00:00:00"); // sender_MAC_address
+    packet.arp_.tmac_ = Mac("00:00:00:00:00:00"); //sender_MAC_address
     packet.arp_.tip_ = htonl(Ip(sender_ip));
 
 
